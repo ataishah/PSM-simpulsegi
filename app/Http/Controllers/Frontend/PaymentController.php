@@ -66,7 +66,7 @@ class PaymentController extends Controller
     function setPaypalConfig(): array
     {
         $config = [
-            'mode'    => config('gatewaySettings.paypal_account_mode'), // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+            'mode'    => config('gatewaySettings.paypal_account_mode'),
             'sandbox' => [
                 'client_id'         => config('gatewaySettings.paypal_api_key'),
                 'client_secret'     => config('gatewaySettings.paypal_secret_key'),
@@ -162,6 +162,7 @@ class PaymentController extends Controller
     {
         return redirect()->route('payment.cancel');
     }
+    
 
 
 
