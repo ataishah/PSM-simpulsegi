@@ -51,7 +51,7 @@ class CategoryDataTable extends DataTable
      */
     public function query(Category $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('id', 'asc');
     }
 
     /**
@@ -82,7 +82,6 @@ class CategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
             Column::make('id'),
             Column::make('name'),
             Column::make('show_at_home'),

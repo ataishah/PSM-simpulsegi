@@ -22,8 +22,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /**Profile Routes */
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
-    Route::put('profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
-    Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::put('admin/profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
+    Route::put('admin/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     /**Slider Routes */
     Route::resource('slider', SliderController::class);
@@ -50,8 +50,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/general-setting', [SettingController::class, 'UpdateGeneralSetting'])->name('general-setting.update');
 
     /** Setting Routes */
-    Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::put('/general-setting', [SettingController::class, 'UpdateGeneralSetting'])->name('general-setting.update');
+
     Route::put('/pusher-setting', [SettingController::class, 'UpdatePusherSetting'])->name('pusher-setting.update');
     Route::put('/mail-setting', [SettingController::class, 'UpdateMailSetting'])->name('mail-setting.update');
     Route::put('/logo-setting', [SettingController::class, 'UpdateLogoSetting'])->name('logo-setting.update');
@@ -85,5 +84,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/clear-database', [ClearDatabaseController::class, 'index'])->name('clear-database.index');
     Route::post('/clear-database', [ClearDatabaseController::class, 'clearDB'])->name('clear-database.destroy');
 
-    
+
 });

@@ -24,17 +24,16 @@ class ProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-            $edit = "<a href='".route('admin.product.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
-            $delete = "<a href='".route('admin.product.destroy', $query->id)."' class='btn btn-danger delete-item mx-2'><i class='fas fa-trash'></i></a>";
+                $edit = "<a href='".route('admin.product.edit', $query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+                $delete = "<a href='".route('admin.product.destroy', $query->id)."' class='btn btn-danger delete-item mx-2'><i class='fas fa-trash'></i></a>";
 
-            $more = '<div class="btn-group dropleft">
-            <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i>
-            </button>
-            <div class="dropdown-menu dropleft">
-              <a class="dropdown-item" href="'.route('admin.product-gallery.show.index', $query->id).'">Product Gallery</a>
-
-            </div>
-          </div>';
+                $more = '<div class="btn-group dropleft">
+                <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i>
+                </button>
+                <div class="dropdown-menu dropleft">
+                  <a class="dropdown-item" href="'.route('admin.product-gallery.show.index', $query->id).'">Product Gallery</a>
+                </div>
+              </div>';
                 return $edit.$delete.$more;
             })
             ->addColumn('price', function ($query) {
@@ -58,11 +57,7 @@ class ProductDataTable extends DataTable
                 }
             })
             ->addColumn('quantity', function ($query) {
-                // Assuming $query->quantity directly represents the remaining quantity
-                // You can format or modify this value as needed
                 $remainingQuantity = $query->quantity - OrderItem::where('product_id', $query->id)->sum('qty');
-
-                // Example: Adding a simple condition to change the display based on the quantity left
                 if ($remainingQuantity <= 0) {
                     return "<span class='badge badge-danger'>Out of Stock!</span>";
                 } else {
@@ -70,7 +65,7 @@ class ProductDataTable extends DataTable
                 }
             })
             ->addColumn('image', function($query){
-            return '<img width="100px" src="'.asset($query->thumb_image).'">';
+                return '<img width="100px" src="'.asset($query->thumb_image).'">';
             })
             ->rawColumns(['offer_price', 'price', 'status', 'show_at_home', 'action', 'image', 'quantity'])
             ->setRowId('id');
@@ -81,7 +76,9 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->orderByRaw('id = 1 DESC')  // Ensure product with id=1 is at the top
+            ->orderBy('id', 'asc');      // Order the rest by id in ascending order
     }
 
     /**
@@ -94,7 +91,7 @@ class ProductDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             //->dom('Bfrtip')
-            ->orderBy(0)
+            ->orderBy(0) // Default order
             ->selectStyleSingle()
             ->buttons([
                 Button::make('excel'),
@@ -127,7 +124,6 @@ class ProductDataTable extends DataTable
                 ->addClass('text-center'),
         ];
     }
-
 
     /**
      * Get the filename for export.
